@@ -13,7 +13,7 @@ type CategoryController struct {
 	CategoryService services.CategoryServiceInterface
 }
 
-func New(CategoryService services.CategoryServiceInterface) CategoryControllerInterface {
+func NewCategory(CategoryService services.CategoryServiceInterface) CategoryControllerInterface {
 	return &CategoryController{
 		CategoryService: CategoryService,
 	}

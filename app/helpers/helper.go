@@ -1,27 +1,47 @@
 package helpers
 
 import (
-	"encoding/json"
-	"fmt"
-	"net/http"
+	"github.com/gin-gonic/gin"
+	"io"
+	"os"
 )
 
-func ApiResponse(w http.ResponseWriter, statusCode int, data interface{}) {
-	w.WriteHeader(statusCode)
-	err := json.NewEncoder(w).Encode(data)
-	if err != nil {
-		fmt.Fprintf(w, "%s", err.Error())
-	}
+type Data struct {
+	Data interface{} `json:"data"`
+}
+type Response struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Errors  interface{} `json:"errors"`
+	Data    Data        `json:"data"`
 }
 
-func ApiResponseError(w http.ResponseWriter, statusCode int, err error) {
-	if err != nil {
-		ApiResponse(w, statusCode, struct {
-			Error string `json:"error"`
-		}{
-			err.Error(),
-		})
-		return
+func ApiResponse(data interface{}, message string, status int) Response {
+	res := Response{Status: status,
+		Message: message,
+		Errors:  nil,
+		Data: Data{
+			Data: data,
+		},
 	}
-	ApiResponse(w, http.StatusBadRequest, nil)
+
+	return res
+
+}
+
+func ApiResponseError(data interface{}, err error, status int) Response {
+	res := Response{
+		Status:  status,
+		Message: "error",
+		Errors:  err.Error(),
+		Data: Data{
+			Data: data,
+		},
+	}
+
+	return res
+}
+func LoggerFile() {
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 }

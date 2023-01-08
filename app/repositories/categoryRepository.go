@@ -14,7 +14,7 @@ type CategoryRepository struct {
 	db *gorm.DB
 }
 
-func New() CategoryRepositoryInterface {
+func NewCategory() CategoryRepositoryInterface {
 	return &CategoryRepository{
 		db: config.InitDb(),
 	}

@@ -8,15 +8,24 @@ import (
 )
 
 var (
-	CategoryRepository repositories.CategoryRepositoryInterface = repositories.New()
-	CategoryService    services.CategoryServiceInterface        = services.New(CategoryRepository)
-	CategoryController controllers.CategoryControllerInterface  = controllers.New(CategoryService)
+	CategoryRepository repositories.CategoryRepositoryInterface = repositories.NewCategory()
+	CategoryService    services.CategoryServiceInterface        = services.NewCategory(CategoryRepository)
+	CategoryController controllers.CategoryControllerInterface  = controllers.NewCategory(CategoryService)
+
+	SliderRepository repositories.SliderRepositoryInterface = repositories.NewSlider()
+	SliderService    services.SliderServiceInterface        = services.NewSlider(SliderRepository)
+	SliderController controllers.SliderControllerInterface  = controllers.NewSlider(SliderService)
 )
 
 func ApiRouter(group *gin.RouterGroup) {
 	cateGroup := group.Group("category")
 	{
-		cateGroup.GET("/",CategoryController.GetAll)
+		cateGroup.GET("", CategoryController.GetAll)
+
+	}
+	sliderGroup := group.Group("slider")
+	{
+		sliderGroup.GET("", SliderController.GetAll)
 
 	}
 
