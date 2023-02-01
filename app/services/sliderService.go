@@ -24,10 +24,10 @@ func (s *SliderService) GetAll(ctx *gin.Context) {
 	var slider []models.Slider
 	err := s.sliderRepo.GetAll(ctx, &slider)
 	if err != nil {
-		res := helpers.ApiResponseError(slider, err, 401)
-		ctx.JSON(http.StatusBadRequest, res)
+
+		ctx.JSON(http.StatusBadRequest, helpers.ApiResponseError(slider, err, 401))
 		return
 	}
-	res := helpers.ApiResponse(slider, "list slider", 200)
-	ctx.JSON(http.StatusOK, res)
+	ctx.JSON(http.StatusOK, helpers.ApiResponse(slider, "list slider", 200))
+
 }

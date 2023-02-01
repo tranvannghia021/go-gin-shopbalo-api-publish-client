@@ -21,8 +21,11 @@ func NewCategory(categoryRepo repositories.CategoryRepositoryInterface) Category
 	}
 }
 func (categoryService *CategoryService) GetAll(ctx *gin.Context) {
+
 	var category []models.Category
+
 	err := categoryService.categoryRepo.GetAll(ctx, &category)
+
 	if err != nil {
 		res := helpers.ApiResponseError(nil, err, 401)
 		ctx.JSON(http.StatusBadRequest, res)

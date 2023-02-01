@@ -3,7 +3,6 @@ package repositories
 import (
 	"github.com/gin-gonic/gin"
 	"go-api-publish/app/models"
-	"go-api-publish/config"
 	"gorm.io/gorm"
 )
 
@@ -14,11 +13,11 @@ type SliderRepository struct {
 	db *gorm.DB
 }
 
-func NewSlider() SliderRepositoryInterface {
+func NewSlider(db *gorm.DB) SliderRepositoryInterface {
 	return &SliderRepository{
-		db: config.InitDb(),
+		db: db,
 	}
 }
-func (s SliderRepository) GetAll(ctx *gin.Context, Slider *[]models.Slider) error {
+func (s *SliderRepository) GetAll(ctx *gin.Context, Slider *[]models.Slider) error {
 	return s.db.Find(Slider).Error
 }

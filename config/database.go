@@ -12,6 +12,7 @@ var Db *gorm.DB
 
 func Connection() *gorm.DB {
 	godotenv.Load()
+	environment := os.Getenv("ENV")
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
 	user := os.Getenv("DB_USERNAME")
@@ -24,7 +25,10 @@ func Connection() *gorm.DB {
 		fmt.Printf("Error connecting to database : error=%v \n", err)
 		return nil
 	}
-	fmt.Println("<==================Connection database successfully====================>", dsn)
+	fmt.Printf("%s", "<============================================================> \n"+
+		"		Connection database success \n"+
+		"		ENV="+environment+
+		"\n<============================================================>\n")
 
 	//db.AutoMigrate(&models.Category{})
 

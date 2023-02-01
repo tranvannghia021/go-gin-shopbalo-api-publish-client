@@ -3,7 +3,6 @@ package repositories
 import (
 	"github.com/gin-gonic/gin"
 	"go-api-publish/app/models"
-	"go-api-publish/config"
 	"gorm.io/gorm"
 )
 
@@ -14,11 +13,11 @@ type CategoryRepository struct {
 	db *gorm.DB
 }
 
-func NewCategory() CategoryRepositoryInterface {
+func NewCategory(db *gorm.DB) CategoryRepositoryInterface {
 	return &CategoryRepository{
-		db: config.InitDb(),
+		db: db,
 	}
 }
 func (CategoryRepo *CategoryRepository) GetAll(ctx *gin.Context, category *[]models.Category) error {
-	return CategoryRepo.db.Find(category).Error
+	return CategoryRepo.db.Table("categories").Find(category).Error
 }
